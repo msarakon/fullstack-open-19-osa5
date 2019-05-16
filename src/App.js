@@ -12,6 +12,14 @@ const App = () => {
   const [ notification, setNotification ] = useState({ msg: '', style: null })
 
   useEffect(() => {
+    const loggedUser = window.localStorage.getItem('loggedBlogAppUser')
+    if (loggedUser) {
+      const user = JSON.parse(loggedUser)
+      setUser(user)
+    }
+  }, [])
+
+  useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
@@ -26,6 +34,7 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({ username, password })
+      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       setUser(user)
       setUsername('')
       setPassword('')
@@ -33,6 +42,11 @@ const App = () => {
       showError('käyttäjätunnus tai salasana ei kelpaa')
       setTimeout(() => showError(null), 5000)
     }
+  }
+
+  const handleLogOut = () => {
+    setUser(null)
+    window.localStorage.removeItem('loggedBlogAppUser')
   }
 
   const loginForm = () => (
@@ -70,7 +84,9 @@ const App = () => {
       {
         user === null ? loginForm() :
         <div>
-          <p>{user.name} logged in</p>
+          <p>
+            {user.name} logged in <button onClick={handleLogOut}>log out</button>
+          </p>
           {blogList()}
         </div>
       }
