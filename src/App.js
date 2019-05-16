@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import loginService from './services/login'
 import blogService from './services/blogs'
@@ -9,12 +10,13 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [ notification, setNotification ] = useState({ msg: '', style: null })
+  const [notification, setNotification] = useState({ msg: '', style: null })
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUser) {
       const user = JSON.parse(loggedUser)
+      blogService.setToken(user.token)
       setUser(user)
     }
   }, [])
@@ -35,6 +37,7 @@ const App = () => {
     try {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -49,22 +52,27 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
   }
 
+  const createBlog = async (title, author, url) => {
+    const blog = await blogService.create({ title, author, url })
+    setBlogs(blogs.concat(blog))
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
         username
         <input type="text"
-                value={username}
-                name="username"
-                onChange={({ target }) => setUsername(target.value)}
+               value={username}
+               name="username"
+               onChange={({ target }) => setUsername(target.value)}
         />
       </div>
       <div>
         password
         <input type="password"
-                value={password}
-                name="password"
-                onChange={({ target }) => setPassword(target.value)}
+               value={password}
+               name="password"
+               onChange={({ target }) => setPassword(target.value)}
         />
       </div>
       <button type="submit">log in</button>
@@ -87,6 +95,7 @@ const App = () => {
           <p>
             {user.name} logged in <button onClick={handleLogOut}>log out</button>
           </p>
+          <BlogForm save={createBlog} />
           {blogList()}
         </div>
       }
