@@ -95,17 +95,17 @@ const App = () => {
       <div>
         username
         <input type="text"
-               value={username}
-               name="username"
-               onChange={({ target }) => setUsername(target.value)}
+          value={username}
+          name="username"
+          onChange={({ target }) => setUsername(target.value)}
         />
       </div>
       <div>
         password
         <input type="password"
-               value={password}
-               name="password"
-               onChange={({ target }) => setPassword(target.value)}
+          value={password}
+          name="password"
+          onChange={({ target }) => setPassword(target.value)}
         />
       </div>
       <button type="submit">log in</button>
@@ -115,10 +115,10 @@ const App = () => {
   const blogList = () => (
     blogs.sort((b1, b2) => b2.likes - b1.likes).map(blog =>
       <Blog key={blog.id}
-            blog={blog}
-            update={(blog) => updateBlog(blog)}
-            remove={(blog) => removeBlog(blog)}
-            loggedUser={user} />
+        blog={blog}
+        update={(blog) => updateBlog(blog)}
+        remove={(blog) => removeBlog(blog)}
+        loggedUser={user} />
     )
   )
 
@@ -128,15 +128,15 @@ const App = () => {
       <Notification message={notification.msg} style={notification.style} />
       {
         user === null ? loginForm() :
-        <div>
-          <p>
-            {user.name} logged in <button onClick={handleLogOut}>log out</button>
-          </p>
-          <Togglable buttonLabel='create a new blog'>
-            <BlogForm save={createBlog} />
-          </Togglable>
-          {blogList()}
-        </div>
+          <div>
+            <p>
+              {user.name} logged in <button onClick={handleLogOut}>log out</button>
+            </p>
+            <Togglable buttonLabel='create a new blog'>
+              <BlogForm save={createBlog} />
+            </Togglable>
+            {blogList()}
+          </div>
       }
     </div>
   )

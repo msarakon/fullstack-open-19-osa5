@@ -23,7 +23,8 @@ const Togglable = (props) => {
 }
 
 Togglable.propTypes = {
-  buttonLabel: PropTypes.string.isRequired
+  buttonLabel: PropTypes.string.isRequired,
+  children: PropTypes.object.isRequired
 }
 
 export default Togglable
