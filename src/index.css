@@ -7,6 +7,16 @@
     margin-bottom: 10px;
   }
   
-  .notification.error {
-    color: red;
-  }
+ .notification.error {
+ color: red;
+}
+
+.blog-row {
+  border: 1px solid black;
+  margin: .5em 0;
+  padding: .2em .5em;
+}
+
+.blog-row:hover {
+  cursor: pointer;
+}
