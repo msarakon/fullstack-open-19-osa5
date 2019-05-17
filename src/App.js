@@ -27,6 +27,11 @@ const App = () => {
     )  
   }, [])
 
+  const showNotification = msg => {
+    setNotification({ msg: msg, style: null })
+    setTimeout(() => setNotification({ msg: '', style: null }), 2000)
+  }
+
   const showError = msg => {
     setNotification({ msg: msg, style: 'error' })
     setTimeout(() => setNotification({ msg: '', style: null }), 2000)
@@ -42,7 +47,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      showError('käyttäjätunnus tai salasana ei kelpaa')
+      showError('wrong username or password')
       setTimeout(() => showError(null), 5000)
     }
   }
@@ -53,8 +58,13 @@ const App = () => {
   }
 
   const createBlog = async (title, author, url) => {
-    const blog = await blogService.create({ title, author, url })
-    setBlogs(blogs.concat(blog))
+    try {
+      const blog = await blogService.create({ title, author, url })
+      setBlogs(blogs.concat(blog))
+      showNotification(`a new blog "${blog.title}" by ${blog.author} added`)
+    } catch (exception) {
+      showError('failed to create a new blog')
+    }
   }
 
   const loginForm = () => (

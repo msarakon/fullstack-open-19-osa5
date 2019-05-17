@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Notification = ({ message, style }) => {
-  if (message === null || message.trim() === '') {
+  if (!message || message.trim() === '') {
     return null
   }
   
