@@ -117,7 +117,8 @@ const App = () => {
       <Blog key={blog.id}
             blog={blog}
             update={(blog) => updateBlog(blog)}
-            remove={(blog) => removeBlog(blog)} />
+            remove={(blog) => removeBlog(blog)}
+            loggedUser={user} />
     )
   )
 
