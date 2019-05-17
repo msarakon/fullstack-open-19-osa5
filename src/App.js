@@ -101,7 +101,7 @@ const App = () => {
   )
 
   const blogList = () => (
-    blogs.map(blog =>
+    blogs.sort((b1, b2) => b2.likes - b1.likes).map(blog =>
       <Blog key={blog.id} blog={blog} update={(blog) => updateBlog(blog)} />
     )
   )
