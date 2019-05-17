@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, update }) => {
+const Blog = ({ blog, update, remove }) => {
   const [fullInfo, setFullInfo] = useState(false)
 
   const showWhenVisible = { display: fullInfo ? '' : 'none' }
@@ -25,7 +25,10 @@ const Blog = ({ blog, update }) => {
         <div>
           {blog.likes} likes <button onClick={like}>like</button>
         </div>
-        {blog.user && <div>added by {blog.user.name}</div>}
+        <div>
+          {blog.user && <div>added by {blog.user.name}</div>}
+        </div>
+        <button onClick={() => remove(blog)}>remove</button>
       </div>
     </div>
   )

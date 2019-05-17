@@ -78,6 +78,18 @@ const App = () => {
     }
   }
 
+  const removeBlog = async (blog) => {
+    if (window.confirm(`Are you sure you want to remove "${blog.title}" by ${blog.author}?`)) {
+      try {
+        await blogService.remove(blog.id)
+        setBlogs(blogs.filter(b => b.id !== blog.id))
+        showNotification(`"blog ${blog.title}" deleted`)
+      } catch (exception) {
+        showError('failed to remove the blog')
+      }
+    }
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -102,7 +114,10 @@ const App = () => {
 
   const blogList = () => (
     blogs.sort((b1, b2) => b2.likes - b1.likes).map(blog =>
-      <Blog key={blog.id} blog={blog} update={(blog) => updateBlog(blog)} />
+      <Blog key={blog.id}
+            blog={blog}
+            update={(blog) => updateBlog(blog)}
+            remove={(blog) => removeBlog(blog)} />
     )
   )
 
