@@ -68,6 +68,16 @@ const App = () => {
     }
   }
 
+  const updateBlog = async (blog) => {
+    try {
+      const updated = await blogService.update(blog)
+      setBlogs(blogs.map(b => b.id === updated.id ? updated : b))
+      showNotification(`"blog ${blog.title}" updated`)
+    } catch (exception) {
+      showError('failed to update the blog')
+    }
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -92,7 +102,7 @@ const App = () => {
 
   const blogList = () => (
     blogs.map(blog =>
-      <Blog key={blog.id} blog={blog} />
+      <Blog key={blog.id} blog={blog} update={(blog) => updateBlog(blog)} />
     )
   )
 
