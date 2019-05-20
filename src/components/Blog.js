@@ -20,8 +20,8 @@ const Blog = ({ blog, update, remove, loggedUser }) => {
 
   return (
     <div className="blog-row" onClick={toggleFullInfo}>
-      <div>{blog.title} ({blog.author})</div>
-      <div style={showWhenVisible}>
+      <div className="blog-title">{blog.title} ({blog.author})</div>
+      <div className="blog-full-info" style={showWhenVisible}>
         <div><a href={blog.url}>{blog.url}</a></div>
         <div>
           {blog.likes} likes <button onClick={like}>like</button>
