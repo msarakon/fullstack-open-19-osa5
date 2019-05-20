@@ -28,6 +28,9 @@ describe('App', () => {
     act(() => { content = render(<App />) })
 
     await waitForElement(() => content.getByText('Tester Guy logged in'))
+    await waitForElement(() => content.getByText(
+      'Selain pystyy suorittamaan vain javascriptiä (Matti Luukkainen)'
+    ))
     expect(content.container.querySelectorAll('.blog-row').length).toBe(3)
   })
 

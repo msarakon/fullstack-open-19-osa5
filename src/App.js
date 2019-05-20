@@ -5,13 +5,15 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import loginService from './services/login'
 import blogService from './services/blogs'
+import useField from './hooks/index'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState({ msg: '', style: null })
+
+  const username = useField('text')
+  const password = useField('password')
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('loggedBlogAppUser')
@@ -41,12 +43,13 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({ username, password })
+      const user = await loginService.login({
+        username: username.value,
+        password: password.value
+      })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
     } catch (exception) {
       showError('wrong username or password')
       setTimeout(() => showError(null), 5000)
@@ -92,22 +95,8 @@ const App = () => {
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input type="text"
-          value={username}
-          name="username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input type="password"
-          value={password}
-          name="password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
+      <div>username <input {...username} /></div>
+      <div>password <input {...password} /></div>
       <button type="submit">log in</button>
     </form>
   )
