@@ -37,7 +37,7 @@ const blogs = [
   }
 ]
   
-const getAll = () => Promise.resolve(blogs)
+const getAll = () => new Promise(resolve => setTimeout(resolve)).then(() => blogs)
 const setToken = () => {}
   
 export default { getAll, setToken }
