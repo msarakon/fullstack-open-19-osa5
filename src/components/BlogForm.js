@@ -1,29 +1,31 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import useField from '../hooks/index'
 
 const BlogForm = ({ save }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
 
   const submit = (event) => {
     event.preventDefault()
-    save(title, author, url)
+    save(
+      title.input.value,
+      author.input.value,
+      url.input.value
+    )
   }
 
   return (
     <form onSubmit={submit}>
       <div>
-        title:
-        <input type="text" value={title} onChange={({ target }) => setTitle(target.value)} />
+        title: <input {...title.input} />
       </div>
       <div>
-        author:
-        <input type="text" value={author} onChange={({ target }) => setAuthor(target.value)} />
+        author: <input {...author.input} />
       </div>
       <div>
-        url:
-        <input type="text" value={url} onChange={({ target }) => setUrl(target.value)} />
+        url: <input {...url.input} />
       </div>
       <button type="submit">save</button>
     </form>

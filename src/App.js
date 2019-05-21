@@ -12,7 +12,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState({ msg: '', style: null })
 
-  const username= useField('text')
+  const username = useField('text')
   const password = useField('password')
 
   useEffect(() => {
