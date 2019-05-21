@@ -12,7 +12,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState({ msg: '', style: null })
 
-  const username = useField('text')
+  const username= useField('text')
   const password = useField('password')
 
   useEffect(() => {
@@ -44,12 +44,14 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username: username.value,
-        password: password.value
+        username: username.input.value,
+        password: password.input.value
       })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
+      username.reset()
+      password.reset()
     } catch (exception) {
       showError('wrong username or password')
       setTimeout(() => showError(null), 5000)
@@ -95,8 +97,8 @@ const App = () => {
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
-      <div>username <input {...username} /></div>
-      <div>password <input {...password} /></div>
+      <div>username <input {...username.input} /></div>
+      <div>password <input {...password.input} /></div>
       <button type="submit">log in</button>
     </form>
   )
